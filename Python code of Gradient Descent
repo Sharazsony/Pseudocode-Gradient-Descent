@@ -1,0 +1,76 @@
+Pseudocode for Gradient Descent
+Step 1: Initialize Parameters
+
+
+Initialize m and b to 0
+Set the number of iterations (e.g., 1000)
+Set the learning rate to 0.01
+Step 2: Iterate
+
+Repeat the following steps until the number of iterations is reached:
+
+    1. Compute the predicted values
+       y_predict = m * x + b
+
+    2. Calculate the gradients for m and b:
+       M = (2/n) * sum(x * (y - y_predict))
+       B = (2/n) * sum(y - y_predict)
+
+    3. Update m and b:
+       m = m - (M * learning_rate)
+       b = b - (B * learning_rate)
+Step 3: Return Values
+
+
+Return the final values of m and b
+Step 4: Use the Model for Prediction
+
+
+Use the formula y = m * x + b to predict new values
+Detailed Explanation
+
+Python Implementation:
+
+## Example Code
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Sample data
+X = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])  # Number of rooms
+y = np.array([150, 200, 250, 300, 400, 500, 600, 700, 800, 900])  # House prices in $1000s
+
+def gradient_descent(x, y):
+    mcurr = bcurr = 0  # Initialize parameters
+    iteration = 1000  # Number of iterations
+    n = len(x)  # Number of data points
+    rate = 0.01  # Learning rate
+
+    for i in range(iteration):
+        y_pred = mcurr * x + bcurr  # Predictions
+        md = -(2/n) * sum(x * (y - y_pred))  # Gradient for slope (m)
+        bd = -(2/n) * sum(y - y_pred)  # Gradient for intercept (b)
+        mcurr -= rate * md  # Update slope
+        bcurr -= rate * bd  # Update intercept
+        cost = (1/n) * sum((y - y_pred) ** 2)  # Cost function
+        if i % 100 == 0:  # Print every 100 iterations
+            print(f"m: {mcurr}, b: {bcurr}, cost: {cost}, iteration: {i}")
+
+    return mcurr, bcurr
+
+# Perform gradient descent
+m_opt, b_opt = gradient_descent(X, y)
+
+# Output the results
+print(f"Optimal parameters: m = {m_opt}, b = {b_opt}")
+
+# Plot the results
+plt.scatter(X, y, color='blue', label='Data points')
+plt.plot(X, m_opt * X + b_opt, color='red', label='Fitted line')
+plt.xlabel('Number of Rooms')
+plt.ylabel('House Price ($1000s)')
+plt.legend()
+plt.show()
+
+
